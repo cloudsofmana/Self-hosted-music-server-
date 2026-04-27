@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resource :library, only: [ :show ]
 
   resources :artists, only: [ :index, :show, :update ]
-  resources :songs, only: [ :index ]
+  resources :songs, only: [ :index, :show ]
   resources :albums, only: [ :index, :show, :update ]
 
   resources :users, except: [ :show ] do
@@ -91,7 +91,6 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :system, only: [ :show ]
-      resources :songs, only: [ :show ]
       resources :stream, only: [ :new ]
       resources :transcoded_stream, only: [ :new ]
 

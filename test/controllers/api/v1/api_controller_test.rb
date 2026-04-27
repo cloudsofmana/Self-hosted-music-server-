@@ -10,19 +10,19 @@ class Api::V1::ApiControllerTest < ActionDispatch::IntegrationTest
 
   test "should not authenticate when use session" do
     login(@user)
-    get api_v1_song_url(@song), as: :json
+    get new_api_v1_stream_url(song_id: @song.id), as: :json
 
     assert_response :unauthorized
   end
 
   test "should authenticate when have api token" do
-    get api_v1_song_url(@song), as: :json, headers: api_token_header(@user)
+    get new_api_v1_stream_url(song_id: @song.id), as: :json, headers: api_token_header(@user)
 
     assert_response :success
   end
 
   test "should not authenticate when do not have api token" do
-    get api_v1_song_url(@song), as: :json
+    get new_api_v1_stream_url(song_id: @song.id), as: :json
 
     assert_response :unauthorized
   end

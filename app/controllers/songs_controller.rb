@@ -11,6 +11,10 @@ class SongsController < ApplicationController
     @pagy, @songs = pagy(records)
   end
 
+  def show
+    @song = Song.find(params[:id])
+  end
+
   private
 
   def filter_params
