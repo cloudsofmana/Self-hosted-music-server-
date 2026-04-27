@@ -45,8 +45,8 @@
 
   /* Flash message */
   --flash-color: #{$white};
-  --flash-success-bg-color: #{$green};
-  --flash-error-bg-color: #{$red};
+  --flash-notice-bg-color: #{$green};
+  --flash-alert-bg-color: #{$red};
 
   /* Tab */
   --tab-color: #{$grey-900};

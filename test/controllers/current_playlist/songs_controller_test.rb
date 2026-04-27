@@ -33,7 +33,7 @@ class CurrentPlaylistSongsControllerTest < ActionDispatch::IntegrationTest
 
   test "should has error flash when song alreay in playlist" do
     post current_playlist_songs_url, params: { song_id: 2 }, xhr: true
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should redirect to show current playlist after added the first song" do

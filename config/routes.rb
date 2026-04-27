@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "home#index"
 
-  resources :sessions, only: [ :new, :create, :destroy ]
+  resources :sessions, only: [ :new, :create ]
   resource :setting, only: [ :show, :update ]
   resource :library, only: [ :show ]
 
@@ -68,6 +68,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :my do
+    resource :session, only: [ :destroy ]
+  end
+
   resources :stream, only: [ :new ]
   resources :transcoded_stream, only: [ :new ]
 
@@ -86,7 +90,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :authentication, only: [ :create, :destroy ]
       resource :system, only: [ :show ]
       resources :songs, only: [ :show ]
       resources :stream, only: [ :new ]

@@ -17,7 +17,7 @@ class ArtistsController < ApplicationController
 
   def update
     if @artist.update(artist_params)
-      flash[:success] = t("notice.updated")
+      flash[:notice] = t("notice.updated")
     else
       flash_errors_message(@artist)
     end

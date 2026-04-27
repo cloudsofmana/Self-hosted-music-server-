@@ -32,6 +32,6 @@ class ArtistsControllerTest < ActionDispatch::IntegrationTest
     login users(:admin)
     patch artist_url(artists(:artist1)), params: { artist: { cover_image: fixture_file_upload("cover_image.gif", "image/gif") } }
 
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 end

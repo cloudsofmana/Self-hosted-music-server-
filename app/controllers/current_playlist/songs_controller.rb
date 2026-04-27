@@ -21,11 +21,11 @@ class CurrentPlaylist::SongsController < Playlists::SongsController
       @playlist.playlists_songs.create(song_id: @song.id, position: @current_song_position + 1)
     end
 
-    flash.now[:success] = t("notice.added_to_playlist")
+    flash.now[:notice] = t("notice.added_to_playlist")
 
     redirect_to action: "index", should_play: params[:should_play] if @playlist.songs.count == 1
   rescue ActiveRecord::RecordNotUnique
-    flash.now[:error] = t("error.already_in_playlist")
+    flash.now[:alert] = t("error.already_in_playlist")
     render turbo_stream: render_flash
   end
 

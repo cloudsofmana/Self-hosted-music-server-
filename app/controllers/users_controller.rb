@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     @user = User.new user_params
 
     if @user.save
-      flash[:success] = t("notice.created")
+      flash[:notice] = t("notice.created")
       redirect_to users_path
     else
       flash_errors_message(@user, now: true)
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      flash.now[:success] = t("notice.updated")
+      flash.now[:notice] = t("notice.updated")
     else
       flash_errors_message(@user, now: true)
     end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     raise BlackCandy::Forbidden if @user == Current.user
 
     @user.destroy
-    flash.now[:success] = t("notice.deleted")
+    flash.now[:notice] = t("notice.deleted")
   end
 
   private

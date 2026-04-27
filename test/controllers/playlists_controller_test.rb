@@ -23,7 +23,7 @@ class PlaylistsControllerTest < ActionDispatch::IntegrationTest
     login
     post playlists_url, params: { playlist: { name: "" } }, xhr: true
 
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should update playlist" do
@@ -43,7 +43,7 @@ class PlaylistsControllerTest < ActionDispatch::IntegrationTest
     login user
     patch playlist_url(playlist), params: { playlist: { name: "" } }
 
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should destroy playlist" do

@@ -43,7 +43,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should has error flash when failed to create user" do
     post users_url, params: { user: { email: "test.com", password: "foobar" } }, xhr: true
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should update user" do
@@ -55,7 +55,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should has error flash when failed to update user" do
     patch user_url(users(:visitor1)), params: { user: { email: "test.com", password: "foobar" } }, xhr: true
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should user can update themself" do

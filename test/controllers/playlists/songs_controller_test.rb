@@ -54,6 +54,6 @@ class Playlists::SongsControllerTest < ActionDispatch::IntegrationTest
 
   test "should has error flash when song alreay in playlist" do
     post playlist_songs_url(@playlist), params: { song_id: 1 }, xhr: true
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 end

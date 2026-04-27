@@ -4,6 +4,6 @@
     <%= link_to t("label.settings"), setting_path, class: "c-dropdown__item", data: { "bridge--account-target": "menuItem", bridge_id: :settings } %>
     <%= link_to t("label.manage_users"), users_path, class: "c-dropdown__item", data: { "bridge--account-target": "menuItem", bridge_id: :manage_users } if is_admin? %>
     <%= link_to t("label.update_profile"), edit_user_path(current_user), class: "c-dropdown__item", data: { "bridge--account-target": "menuItem", bridge_id: :update_profile } %>
-    <%= button_to t("button.logout"), current_session, method: :delete, form_class: "c-dropdown__item", data: { "bridge--account-target": "menuItem", bridge_id: :logout } %>
+    <%= button_to t("button.logout"), my_session_path, method: :delete, form_class: "c-dropdown__item", data: { "bridge--account-target": "menuItem", bridge_id: :logout } %>
   </div>
 </details>

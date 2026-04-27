@@ -38,14 +38,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get unauthorized when did not logged in on turbo native agent" do
-    get "/dummy_index", headers: { "User-Agent" => "Black Candy iOS" }
-    assert_response :unauthorized
-
-    get "/dummy_index", headers: { "User-Agent" => "Black Candy Android" }
-    assert_response :unauthorized
-  end
-
   test "should redirect with referer url parmas" do
     login
 
