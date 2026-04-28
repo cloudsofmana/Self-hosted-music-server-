@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class Api::V1::SystemsControllerTest < ActionDispatch::IntegrationTest
-  test "should get system version" do
-    get api_v1_system_url, as: :json
+class SystemsControllerTest < ActionDispatch::IntegrationTest
+  test "should get system version via api" do
+    get system_url, as: :json
     response = @response.parsed_body["version"]
 
     assert_response :success
@@ -13,8 +13,8 @@ class Api::V1::SystemsControllerTest < ActionDispatch::IntegrationTest
     assert_equal BlackCandy::Version::PATCH, response["patch"]
   end
 
-  test "should get minimum app version" do
-    get api_v1_system_url, as: :json
+  test "should get minimum app version via api" do
+    get system_url, as: :json
     response = @response.parsed_body["min_app_version"]
 
     assert_response :success

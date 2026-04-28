@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [ :new, :create ]
   resource :setting, only: [ :show, :update ]
   resource :library, only: [ :show ]
+  resource :system, only: [ :show ]
 
   resources :artists, only: [ :index, :show, :update ]
   resources :songs, only: [ :index, :show ]
@@ -90,7 +91,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :system, only: [ :show ]
       resources :stream, only: [ :new ]
       resources :transcoded_stream, only: [ :new ]
 
