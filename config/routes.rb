@@ -91,9 +91,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :stream, only: [ :new ]
-      resources :transcoded_stream, only: [ :new ]
-
       namespace :current_playlist do
         resources :songs, only: [ :index, :destroy, :create ] do
           put "move", on: :member

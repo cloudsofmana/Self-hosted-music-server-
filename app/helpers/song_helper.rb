@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module SongHelper
-  def song_json_builder(song, for_api: false)
-    stream_url = for_api ? new_api_v1_stream_url(song_id: song.id) : new_stream_url(song_id: song.id)
-    transcoded_stream_url = for_api ? new_api_v1_transcoded_stream_url(song_id: song.id) : new_transcoded_stream_url(song_id: song.id)
+  def song_json_builder(song)
+    stream_url = new_stream_url(song_id: song.id)
+    transcoded_stream_url = new_transcoded_stream_url(song_id: song.id)
 
     Jbuilder.new do |json|
       json.call(song, :id, :name, :duration)

@@ -23,7 +23,7 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     response = @response.parsed_body
 
     assert_response :success
-    assert_equal new_api_v1_transcoded_stream_url(song_id: songs(:wma_sample).id), response["url"]
+    assert_equal new_transcoded_stream_url(song_id: songs(:wma_sample).id), response["url"]
   end
 
   test "should get transcoded stream url for lossless formats when allow transcode lossless format via api" do
@@ -33,7 +33,7 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     response = @response.parsed_body
 
     assert_response :success
-    assert_equal new_api_v1_transcoded_stream_url(song_id: songs(:flac_sample).id), response["url"]
+    assert_equal new_transcoded_stream_url(song_id: songs(:flac_sample).id), response["url"]
   end
 
   test "should not get transcoded stream path for lossless formats when don't allow transcode lossless format via api" do
@@ -43,6 +43,6 @@ class SongsControllerTest < ActionDispatch::IntegrationTest
     response = @response.parsed_body
 
     assert_response :success
-    assert_equal new_api_v1_stream_url(song_id: songs(:flac_sample).id), response["url"]
+    assert_equal new_stream_url(song_id: songs(:flac_sample).id), response["url"]
   end
 end
