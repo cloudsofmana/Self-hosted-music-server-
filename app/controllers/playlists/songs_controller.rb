@@ -13,19 +13,28 @@ class Playlists::SongsController < ApplicationController
     @song = Song.find(params[:song_id])
     @playlist.songs.push(@song)
 
-    flash[:notice] = t("notice.added_to_playlist")
+    respond_to do |format|
+      format.json
+      format.html { redirect_back_or_to({ action: "index" }, notice: t("notice.added_to_playlist")) }
+    end
   rescue ActiveRecord::RecordNotUnique
-    flash[:alert] = t("error.already_in_playlist")
-  ensure
-    redirect_back_with_referer_params(fallback_location: { action: "index" })
+    raise BlackCandy::DuplicatePlaylistSong
   end
 
   def destroy
     @playlist.songs.destroy(@song)
-    flash.now[:notice] = t("notice.deleted_from_playlist")
 
-    # for refresh playlist content, when remove last song from playlist
-    redirect_to action: "index" if @playlist.songs.empty?
+    if @playlist.songs.empty?
+      respond_to do |format|
+        format.json
+        format.html { redirect_to action: "index" }
+      end
+    else
+      respond_to do |format|
+        format.json
+        format.turbo_stream
+      end
+    end
   end
 
   def move

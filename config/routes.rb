@@ -102,10 +102,6 @@ Rails.application.routes.draw do
           end
         end
       end
-
-      namespace :favorite_playlist do
-        resources :songs, only: [ :create, :destroy ]
-      end
     end
   end
 end

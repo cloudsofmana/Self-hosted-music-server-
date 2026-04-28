@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   include ClientDetection
   include RequestDetection
   include ExceptionRescue
-  include RefererRedirection
   include Flashy
   include Pagy::Backend
 
