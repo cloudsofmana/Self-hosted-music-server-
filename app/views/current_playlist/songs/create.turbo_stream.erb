@@ -10,4 +10,4 @@
 <% end %>
 
 <%= turbo_stream.update dom_id(@playlist, :songs_count), @playlist.songs.size %>
-<%= render_flash %>
+<%= stream_flash(message: t("notice.added_to_playlist")) %>

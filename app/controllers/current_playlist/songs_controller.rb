@@ -21,12 +21,19 @@ class CurrentPlaylist::SongsController < Playlists::SongsController
       @playlist.playlists_songs.create(song_id: @song.id, position: @current_song_position + 1)
     end
 
-    flash.now[:notice] = t("notice.added_to_playlist")
-
-    redirect_to action: "index", should_play: params[:should_play] if @playlist.songs.count == 1
+    if @playlist.songs.count == 1
+      respond_to do |format|
+        format.json
+        format.html { redirect_to action: "index", should_play: params[:should_play] }
+      end
+    else
+      respond_to do |format|
+        format.json
+        format.turbo_stream
+      end
+    end
   rescue ActiveRecord::RecordNotUnique
-    flash.now[:alert] = t("error.already_in_playlist")
-    render turbo_stream: render_flash
+    raise BlackCandy::DuplicatePlaylistSong
   end
 
   private

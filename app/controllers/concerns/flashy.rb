@@ -2,7 +2,7 @@ module Flashy
   extend ActiveSupport::Concern
 
   included do
-    helper_method :render_flash
+    helper_method :stream_flash
   end
 
   private
@@ -17,8 +17,8 @@ module Flashy
     end
   end
 
-  def render_flash(type: :notice, message: "")
-    flash[type] = message unless message.blank?
+  def stream_flash(type: :notice, message: "")
+    flash.now[type] = message unless message.blank?
     turbo_stream.update "turbo-flash", partial: "shared/flash"
   end
 end

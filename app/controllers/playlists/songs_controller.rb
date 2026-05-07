@@ -46,7 +46,11 @@ class Playlists::SongsController < ApplicationController
 
   def destroy_all
     @playlist.songs.clear
-    redirect_to action: "index"
+
+    respond_to do |format|
+      format.json { head :no_content }
+      format.html { redirect_to action: "index" }
+    end
   end
 
   private

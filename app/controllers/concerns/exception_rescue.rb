@@ -20,6 +20,7 @@ module ExceptionRescue
       respond_to do |format|
         format.json { render_json_error(error, :bad_request) }
         format.html { redirect_back_or_to root_path, alert: t("error.already_in_playlist") }
+        format.turbo_stream { render turbo_stream: stream_flash(type: :alert, message: t("error.already_in_playlist")) }
       end
     end
 

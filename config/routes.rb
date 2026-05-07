@@ -92,11 +92,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :current_playlist do
-        resources :songs, only: [ :index, :destroy, :create ] do
-          put "move", on: :member
-
+        resources :songs, only: [] do
           collection do
-            delete "/", action: :destroy_all
             resources :albums, only: :update, module: :songs
             resources :playlists, only: :update, module: :songs
           end
