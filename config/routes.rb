@@ -88,17 +88,4 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
-
-  namespace :api do
-    namespace :v1 do
-      namespace :current_playlist do
-        resources :songs, only: [] do
-          collection do
-            resources :albums, only: :update, module: :songs
-            resources :playlists, only: :update, module: :songs
-          end
-        end
-      end
-    end
-  end
 end
