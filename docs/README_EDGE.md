@@ -5,7 +5,6 @@
 # Black Candy
 [![CI](https://github.com/blackcandy-org/black_candy/actions/workflows/ci.yml/badge.svg)](https://github.com/blackcandy-org/black_candy/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/blackcandy-org/blackcandy/badge.svg?branch=master)](https://coveralls.io/github/blackcandy-org/black_candy?branch=master)
-[![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
 ![Docker Pulls](https://img.shields.io/docker/pulls/blackcandy/blackcandy)
 
 ![Screenshot](https://raw.githubusercontent.com/blackcandy-org/blackcandy/master/docs/images/screenshot_main.png)
@@ -35,10 +34,9 @@ That's all. Now, you can access either http://localhost or http://host-ip in a b
 ## Upgrade
 
 > [!IMPORTANT]
-> If you upgrade to a major version, you need to read the upgrade guide carefully before upgrade. Because there are some breaking changes in a major version.
+> If you upgrade to a new version, you need to read the upgrade guide carefully before upgrade. Because there are may some breaking changes in a new version.
 >
-> - See [V3 Upgrade](https://github.com/blackcandy-org/blackcandy/blob/master/docs/v3_upgrade.md) for upgrade from V2 release.
-> - See [Edge Upgrade](https://github.com/blackcandy-org/blackcandy/blob/master/docs/edge_upgrade.md) for upgrade from edge release to latest stable release.
+> Please Check the [Upgrade Guide](https://github.com/blackcandy-org/blackcandy/blob/master/docs/upgrade.md) for upgrading to a new version
 
 Upgrade Black Candy is pull new image from remote. Then remove an old container and create a new one.
 
@@ -141,7 +139,7 @@ docker pull ghcr.io/blackcandy-org/blackcandy:edge
 
 ### Requirements
 
-- Ruby 3.3
+- Ruby 4.0
 - Node.js 20
 - libvips
 - FFmpeg
@@ -190,5 +188,4 @@ Black Candy support get artist and album image from Discogs API. You can create 
 
 This project is supported by:
 
-<a href="https://www.digitalocean.com/"><img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="200px"></a>
 <a href="https://www.jetbrains.com/community/opensource"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_square.svg"></a>
