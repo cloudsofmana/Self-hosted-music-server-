@@ -33,9 +33,9 @@ export default class extends Controller {
       artist: this.currentSong.artist_name,
       album: this.currentSong.album_name,
       artwork: [
-        { src: this.currentSong.album_image_url.small, sizes: '200x200' },
-        { src: this.currentSong.album_image_url.medium, sizes: '300x300' },
-        { src: this.currentSong.album_image_url.large, sizes: '400x400' }
+        { src: this.currentSong.album_image_urls.small, sizes: '200x200' },
+        { src: this.currentSong.album_image_urls.medium, sizes: '300x300' },
+        { src: this.currentSong.album_image_urls.large, sizes: '400x400' }
       ]
     })
   }

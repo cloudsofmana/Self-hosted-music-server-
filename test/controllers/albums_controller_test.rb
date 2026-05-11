@@ -49,9 +49,9 @@ class AlbumsControllerTest < ActionDispatch::IntegrationTest
     assert_equal album.genre, album_response["genre"]
     assert_equal album.artist.name, album_response["artist_name"]
     assert_equal album.artist_id, album_response["artist_id"]
-    assert album_response["cover_image_url"]["small"].present?
-    assert album_response["cover_image_url"]["medium"].present?
-    assert album_response["cover_image_url"]["large"].present?
+    assert album_response["image_urls"]["small"].present?
+    assert album_response["image_urls"]["medium"].present?
+    assert album_response["image_urls"]["large"].present?
   end
 
   test "should show album via api" do
@@ -66,6 +66,9 @@ class AlbumsControllerTest < ActionDispatch::IntegrationTest
     assert_equal album.genre, response["genre"]
     assert_equal album.artist.name, response["artist_name"]
     assert_equal album.artist_id, response["artist_id"]
+    assert response["image_urls"]["small"].present?
+    assert response["image_urls"]["medium"].present?
+    assert response["image_urls"]["large"].present?
     assert_equal album.song_ids, response["songs"].map { |song| song["id"] }
   end
 
@@ -93,6 +96,9 @@ class AlbumsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should paginate index via api with limit param and link header" do
+    Album.destroy_all
+    5.times { |i| Album.create!(name: "album_#{i}", artist: artists(:artist1)) }
+
     get albums_url(limit: 2, page: 2), as: :json, headers: api_token_header(users(:visitor1))
 
     assert_response :success
@@ -102,7 +108,7 @@ class AlbumsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal albums_url(limit: 2, page: 1), links["first"]
     assert_equal albums_url(limit: 2, page: 1), links["prev"]
-    assert_equal albums_url(limit: 2, page: 2), links["last"]
-    assert_nil links["next"]
+    assert_equal albums_url(limit: 2, page: 3), links["next"]
+    assert_equal albums_url(limit: 2, page: 3), links["last"]
   end
 end

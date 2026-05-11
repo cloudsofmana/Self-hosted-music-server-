@@ -141,8 +141,8 @@ export default class extends Controller {
     const favoriteSongUrl = `/favorite_playlist/songs?song_id=${currentSong.id}`
     const unFavoriteSongUrl = `/favorite_playlist/songs/${currentSong.id}`
 
-    this.imageTarget.src = currentSong.album_image_url.small
-    this.backgroundImageTarget.style.backgroundImage = `url(${currentSong.album_image_url.small})`
+    this.imageTarget.src = currentSong.album_image_urls.small
+    this.backgroundImageTarget.style.backgroundImage = `url(${currentSong.album_image_urls.small})`
     this.songNameTarget.textContent = currentSong.name
     this.artistNameTarget.textContent = currentSong.artist_name
     this.albumNameTarget.textContent = currentSong.album_name
