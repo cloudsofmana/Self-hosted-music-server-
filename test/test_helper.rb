@@ -117,6 +117,13 @@ class ActiveSupport::TestCase
     { authorization: ActionController::HttpAuthentication::Token.encode_credentials(session.signed_id) }
   end
 
+  def parse_link_header(link_header)
+    link_header.to_s.split(", ").to_h do |entry|
+      url, rel = entry.match(/\A<(.+)>; rel="(.+)"\z/).captures
+      [ rel, url ]
+    end
+  end
+
   def fixtures_file_path(file_name)
     Rails.root.join("test", "fixtures", "files", file_name).to_s
   end
