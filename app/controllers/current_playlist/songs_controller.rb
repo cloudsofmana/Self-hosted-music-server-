@@ -23,12 +23,12 @@ class CurrentPlaylist::SongsController < Playlists::SongsController
 
     if @playlist.songs.count == 1
       respond_to do |format|
-        format.json
+        format.json { render partial: "songs/song", locals: { song: @song } }
         format.html { redirect_to action: "index", should_play: params[:should_play] }
       end
     else
       respond_to do |format|
-        format.json
+        format.json { render partial: "songs/song", locals: { song: @song } }
         format.turbo_stream
       end
     end

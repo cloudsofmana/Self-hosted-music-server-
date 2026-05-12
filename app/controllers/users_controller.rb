@@ -17,21 +17,20 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new user_params
+    @user = User.create!(user_params)
 
-    if @user.save
-      flash[:notice] = t("notice.created")
-      redirect_to users_path
-    else
-      flash_errors_message(@user, now: true)
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: t("notice.created") }
+      format.json { render partial: "users/user", locals: { user: @user }, status: :created }
     end
   end
 
   def update
-    if @user.update(user_params)
-      flash.now[:notice] = t("notice.updated")
-    else
-      flash_errors_message(@user, now: true)
+    @user.update!(user_params)
+
+    respond_to do |format|
+      format.html { redirect_to edit_user_path(@user), notice: t("notice.updated") }
+      format.json { render partial: "users/user", locals: { user: @user } }
     end
   end
 
@@ -40,7 +39,11 @@ class UsersController < ApplicationController
     raise BlackCandy::Forbidden if @user == Current.user
 
     @user.destroy
-    flash.now[:notice] = t("notice.deleted")
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: t("notice.deleted") }
+      format.json { head :no_content }
+    end
   end
 
   private

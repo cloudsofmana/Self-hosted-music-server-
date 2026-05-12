@@ -6,7 +6,7 @@ module SongHelper
     transcoded_stream_url = new_transcoded_stream_url(song_id: song.id)
 
     Jbuilder.new do |json|
-      json.call(song, :id, :name, :duration)
+      json.call(song, :id, :name, :duration, :album_id, :artist_id)
       json.url need_transcode?(song) ? transcoded_stream_url : stream_url
       json.album_name song.album.name
       json.artist_name song.artist.name

@@ -7,13 +7,9 @@ class SettingsController < ApplicationController
   end
 
   def update
-    setting = Setting.instance
+    Setting.instance.update!(setting_params)
 
-    if setting.update(setting_params)
-      flash.now[:notice] = t("notice.updated")
-    else
-      flash_errors_message(setting, now: true)
-    end
+    redirect_to setting_path, notice: t("notice.updated")
   end
 
   private
