@@ -2,6 +2,6 @@
 
 class Search::SongsController < ApplicationController
   def index
-    @songs = Song.search(params[:query]).includes(:artist, :album)
+    @pagy, @songs = pagy(Song.search(params[:query]).includes(:artist, :album))
   end
 end
