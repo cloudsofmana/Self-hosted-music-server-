@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
     @session = Session.build_from_credential(session_params)
     raise BlackCandy::InvalidCredential unless @session.save
 
-    login if !api_request? || params[:with_cookie]
+    login
 
     respond_to do |format|
       format.html { redirect_to root_path }

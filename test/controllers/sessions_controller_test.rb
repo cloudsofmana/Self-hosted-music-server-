@@ -34,28 +34,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "should create session via api without cookie" do
+  test "should create session via api" do
     post sessions_url, as: :json, params: {
-      session: {
-        email: @user.email,
-        password: "foobar"
-      }
-    }
-
-    response = @response.parsed_body["user"]
-
-    assert_response :success
-    assert_nil cookies[:session_id]
-    assert_not_empty @user.sessions
-    assert_not_empty response["api_token"]
-    assert_equal @user.id, response["id"]
-    assert_equal @user.email, response["email"]
-    assert_equal @user.is_admin, response["is_admin"]
-  end
-
-  test "should create session via api with cookie" do
-    post sessions_url, as: :json, params: {
-      with_cookie: true,
       session: {
         email: @user.email,
         password: "foobar"
@@ -66,8 +46,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_not_empty cookies[:session_id]
-    assert_not_empty response["api_token"]
     assert_not_empty @user.sessions
+    assert_not_empty response["api_token"]
     assert_equal @user.id, response["id"]
     assert_equal @user.email, response["email"]
     assert_equal @user.is_admin, response["is_admin"]
@@ -75,20 +55,6 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not create session via api with wrong credential" do
     post sessions_url, as: :json, params: {
-      session: {
-        email: "fake@email.com",
-        password: "fake"
-      }
-    }
-
-    assert_response :unauthorized
-    assert_nil cookies[:session_id]
-    assert_empty @user.sessions
-  end
-
-  test "should not create session via api with cookie and wrong credential" do
-    post sessions_url, as: :json, params: {
-      with_cookie: true,
       session: {
         email: "fake@email.com",
         password: "fake"
