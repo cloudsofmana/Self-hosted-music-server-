@@ -9,31 +9,30 @@ class PlaylistsController < ApplicationController
   end
 
   def create
-    @playlist = Current.user.playlists.new playlist_params
+    @playlist = Current.user.playlists.create!(playlist_params)
 
-    if @playlist.save
-      flash[:success] = t("notice.created")
-    else
-      flash_errors_message(@playlist)
+    respond_to do |format|
+      format.html { redirect_to action: "index", notice: t("notice.created") }
+      format.json { render partial: "playlists/playlist", locals: { playlist: @playlist }, status: :created }
     end
-
-    redirect_to action: "index"
   end
 
   def update
-    if @playlist.update(playlist_params)
-      flash[:success] = t("notice.updated")
-    else
-      flash_errors_message(@playlist)
-    end
+    @playlist.update!(playlist_params)
 
-    redirect_to playlist_songs_path(@playlist)
+    respond_to do |format|
+      format.html { redirect_to playlist_songs_path(@playlist), notice: t("notice.updated") }
+      format.json { render partial: "playlists/playlist", locals: { playlist: @playlist } }
+    end
   end
 
   def destroy
     @playlist.destroy
 
-    redirect_to action: "index"
+    respond_to do |format|
+      format.html { redirect_to action: "index" }
+      format.json { head :no_content }
+    end
   end
 
   private

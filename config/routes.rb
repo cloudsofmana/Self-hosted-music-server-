@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   root "home#index"
 
-  resources :sessions, only: [ :new, :create, :destroy ]
+  resources :sessions, only: [ :new, :create ]
   resource :setting, only: [ :show, :update ]
   resource :library, only: [ :show ]
+  resource :system, only: [ :show ]
 
   resources :artists, only: [ :index, :show, :update ]
-  resources :songs, only: [ :index ]
+  resources :songs, only: [ :index, :show ]
   resources :albums, only: [ :index, :show, :update ]
 
   resources :users, except: [ :show ] do
@@ -68,6 +69,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :my do
+    resource :session, only: [ :destroy ]
+    resource :profile, only: [ :edit, :update ]
+  end
+
   resources :stream, only: [ :new ]
   resources :transcoded_stream, only: [ :new ]
 
@@ -83,30 +89,4 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
-
-  namespace :api do
-    namespace :v1 do
-      resource :authentication, only: [ :create, :destroy ]
-      resource :system, only: [ :show ]
-      resources :songs, only: [ :show ]
-      resources :stream, only: [ :new ]
-      resources :transcoded_stream, only: [ :new ]
-
-      namespace :current_playlist do
-        resources :songs, only: [ :index, :destroy, :create ] do
-          put "move", on: :member
-
-          collection do
-            delete "/", action: :destroy_all
-            resources :albums, only: :update, module: :songs
-            resources :playlists, only: :update, module: :songs
-          end
-        end
-      end
-
-      namespace :favorite_playlist do
-        resources :songs, only: [ :create, :destroy ]
-      end
-    end
-  end
 end

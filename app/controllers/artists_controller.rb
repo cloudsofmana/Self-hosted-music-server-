@@ -16,13 +16,15 @@ class ArtistsController < ApplicationController
   end
 
   def update
-    if @artist.update(artist_params)
-      flash[:success] = t("notice.updated")
-    else
-      flash_errors_message(@artist)
-    end
+    @artist.update!(artist_params)
 
-    redirect_to @artist
+    respond_to do |format|
+      format.html { redirect_to @artist, notice: t("notice.updated") }
+      format.json do
+        @albums = @artist.albums.with_attached_cover_image
+        render :show
+      end
+    end
   end
 
   private

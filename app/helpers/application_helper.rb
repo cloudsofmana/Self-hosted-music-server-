@@ -82,8 +82,4 @@ module ApplicationHelper
 
     content_for(:title, title)
   end
-
-  def current_url
-    url_for(only_path: false)
-  end
 end

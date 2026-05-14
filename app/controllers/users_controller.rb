@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :require_admin, only: [ :index, :create, :new, :destroy ]
+  before_action :require_admin
   before_action :find_user, only: [ :edit, :update, :destroy ]
-  before_action :auth_user, only: [ :edit, :update ]
 
   def index
     @users = User.where.not(id: Current.user.id)
@@ -17,21 +16,20 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new user_params
+    @user = User.create!(user_params)
 
-    if @user.save
-      flash[:success] = t("notice.created")
-      redirect_to users_path
-    else
-      flash_errors_message(@user, now: true)
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: t("notice.created") }
+      format.json { render partial: "users/user", locals: { user: @user }, status: :created }
     end
   end
 
   def update
-    if @user.update(user_params)
-      flash.now[:success] = t("notice.updated")
-    else
-      flash_errors_message(@user, now: true)
+    @user.update!(user_params)
+
+    respond_to do |format|
+      format.html { redirect_to edit_user_path(@user), notice: t("notice.updated") }
+      format.json { render partial: "users/user", locals: { user: @user } }
     end
   end
 
@@ -40,18 +38,17 @@ class UsersController < ApplicationController
     raise BlackCandy::Forbidden if @user == Current.user
 
     @user.destroy
-    flash.now[:success] = t("notice.deleted")
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: t("notice.deleted") }
+      format.json { head :no_content }
+    end
   end
 
   private
 
   def find_user
     @user = User.find(params[:id])
-  end
-
-  def auth_user
-    raise BlackCandy::Forbidden if BlackCandy.config.demo_mode?
-    raise BlackCandy::Forbidden unless @user == Current.user || is_admin?
   end
 
   def user_params

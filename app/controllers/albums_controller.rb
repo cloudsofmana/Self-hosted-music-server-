@@ -15,17 +15,20 @@ class AlbumsController < ApplicationController
   end
 
   def show
-    @groped_songs = @album.songs.includes(:artist).group_by(&:discnum)
+    @songs = @album.songs.includes(:artist)
+    @groped_songs = @songs.group_by(&:discnum)
   end
 
   def update
-    if @album.update(album_params)
-      flash[:success] = t("notice.updated")
-    else
-      flash_errors_message(@album)
-    end
+    @album.update!(album_params)
 
-    redirect_to @album
+    respond_to do |format|
+      format.html { redirect_to @album, notice: t("notice.updated") }
+      format.json do
+        @songs = @album.songs.includes(:artist)
+        render :show
+      end
+    end
   end
 
   private

@@ -3,6 +3,8 @@
 class SearchController < ApplicationController
   SEARCH_RESULT_MAX_AMOUNT = 10
 
+  after_action :set_link_header, only: :index, if: :api_request?
+
   def index
     searched_albums = Album.search(params[:query]).includes(:artist).with_attached_cover_image
     searched_artists = Artist.search(params[:query]).with_attached_cover_image
@@ -20,5 +22,17 @@ class SearchController < ApplicationController
 
     @songs = searched_songs.limit(SEARCH_RESULT_MAX_AMOUNT).load_async
     @is_all_songs = searched_songs.count <= SEARCH_RESULT_MAX_AMOUNT
+  end
+
+  private
+
+  def set_link_header
+    links = []
+    links << %(<#{search_albums_url(query: params[:query])}>; rel="search-albums") unless @is_all_albums
+    links << %(<#{search_artists_url(query: params[:query])}>; rel="search-artists") unless @is_all_artists
+    links << %(<#{search_playlists_url(query: params[:query])}>; rel="search-playlists") unless @is_all_playlists
+    links << %(<#{search_songs_url(query: params[:query])}>; rel="search-songs") unless @is_all_songs
+
+    response.headers["Link"] = links.join(", ") if links.any?
   end
 end

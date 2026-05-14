@@ -21,12 +21,12 @@
   border-radius: border-radius("medium");
 }
 
-.c-flash__body--error {
-  background-color: var(--flash-error-bg-color);
+.c-flash__body--alert {
+  background-color: var(--flash-alert-bg-color);
   color: var(--flash-color);
 }
 
-.c-flash__body--success {
-  background-color: var(--flash-success-bg-color);
+.c-flash__body--notice {
+  background-color: var(--flash-notice-bg-color);
   color: var(--flash-color);
 }

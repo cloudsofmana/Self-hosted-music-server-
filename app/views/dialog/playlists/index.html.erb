@@ -4,12 +4,6 @@
   <%= form_tag nil, "data-turbo-frame": "_top", "data-turbo-action": ("replace" if native_app?) do %>
     <%= hidden_field_tag :song_id, params[:song_id] %>
 
-    <%# Because this page in turbo native doesn't render as a turbo frame, %>
-    <%# it's render as a whole page in modal in another session. %>
-    <%# So we can't get the previous url of the page that open the modal. %>
-    <%# And we need a way to save the referer_url as parmas, %>
-    <%# so we can redirect to the referer_url later. %>
-    <%= hidden_field_tag :referer_url, params[:referer_url] if native_app? %>
     <%= turbo_frame_tag "turbo-dialog-playlists-page-#{@pagy.page}", class: "c-list", target: "_top" do %>
       <%= render partial: "dialog/playlists/playlist", collection: @playlists %>
 

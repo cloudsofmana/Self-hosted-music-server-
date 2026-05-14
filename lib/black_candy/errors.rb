@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module BlackCandy
-  CustomError = Data.define(:type, :message)
-
   class BaseError < StandardError
     def type
       self.class.name.split("::").last
@@ -24,6 +22,12 @@ module BlackCandy
   class DuplicatePlaylistSong < BaseError
     def message
       I18n.t("error.already_in_playlist")
+    end
+  end
+
+  class Unauthorized < BaseError
+    def message
+      I18n.t("error.unauthorized")
     end
   end
 end

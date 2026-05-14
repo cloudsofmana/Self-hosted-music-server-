@@ -13,31 +13,49 @@ class Playlists::SongsController < ApplicationController
     @song = Song.find(params[:song_id])
     @playlist.songs.push(@song)
 
-    flash[:success] = t("notice.added_to_playlist")
+    respond_to do |format|
+      format.json { render partial: "songs/song", locals: { song: @song } }
+      format.html { redirect_back_or_to({ action: "index" }, notice: t("notice.added_to_playlist")) }
+    end
   rescue ActiveRecord::RecordNotUnique
-    flash[:error] = t("error.already_in_playlist")
-  ensure
-    redirect_back_with_referer_params(fallback_location: { action: "index" })
+    raise BlackCandy::DuplicatePlaylistSong
   end
 
   def destroy
     @playlist.songs.destroy(@song)
-    flash.now[:success] = t("notice.deleted_from_playlist")
 
-    # for refresh playlist content, when remove last song from playlist
-    redirect_to action: "index" if @playlist.songs.empty?
+    if @playlist.songs.empty?
+      respond_to do |format|
+        format.json { render partial: "songs/song", locals: { song: @song } }
+        format.html { redirect_to action: "index" }
+      end
+    else
+      respond_to do |format|
+        format.json { render partial: "songs/song", locals: { song: @song } }
+        format.turbo_stream
+      end
+    end
   end
 
   def move
     moving_song = @playlist.playlists_songs.find_by!(song_id: @song.id)
     destination_song = @playlist.playlists_songs.find_by!(song_id: params[:destination_song_id])
 
-    moving_song.update(position: destination_song.position)
+    moving_song.insert_at!(destination_song.position)
+
+    respond_to do |format|
+      format.html { head :ok }
+      format.json { head :no_content }
+    end
   end
 
   def destroy_all
     @playlist.songs.clear
-    redirect_to action: "index"
+
+    respond_to do |format|
+      format.json { head :no_content }
+      format.html { redirect_to action: "index" }
+    end
   end
 
   private

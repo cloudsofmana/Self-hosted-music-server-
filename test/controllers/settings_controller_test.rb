@@ -23,7 +23,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     login users(:admin)
     patch setting_url, params: { setting: { transcode_bitrate: 11 } }, xhr: true
 
-    assert flash[:error].present?
+    assert flash[:alert].present?
   end
 
   test "should sync media when media_path setting updated" do

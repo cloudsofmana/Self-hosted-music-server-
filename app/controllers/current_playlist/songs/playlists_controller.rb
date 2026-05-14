@@ -6,10 +6,16 @@ class CurrentPlaylist::Songs::PlaylistsController < ApplicationController
 
   def update
     @current_playlist.replace(@playlist.song_ids)
-    redirect_to current_playlist_songs_path(
-      should_play: params[:should_play],
-      song_id: params[:song_id]
-    )
+
+    respond_to do |format|
+      format.json
+      format.html do
+        redirect_to current_playlist_songs_path(
+          should_play: params[:should_play],
+          song_id: params[:song_id]
+        )
+      end
+    end
   end
 
   private
