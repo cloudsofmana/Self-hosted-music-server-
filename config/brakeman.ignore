@@ -1,0 +1,69 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "35b5c9fa1be3e245e0724bfb7981f90afcd97a95d4336d0a58d0b83ec9073e6e",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/stream_controller.rb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Stream.new(Song.find(params[:song_id])).file_path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "StreamController",
+        "method": "new"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [22],
+      "note": "Song#file_path is populated by the server-side media library scanner, never from user input. params[:song_id] is consumed by Song.find for record lookup only."
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "3ea1825035ecf89dcfdc7ab46319aabd51dcb912a02895ffa742d59efd2c1bc5",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/transcoded_stream_controller.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(Stream.new(Song.find(params[:song_id])).transcode_cache_file_path, \"w\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscodedStreamController",
+        "method": "new"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [22],
+      "note": "transcode_cache_file_path is constructed entirely server-side from a fixed cache root, song.id, Base64-encoded md5_hash, and Setting.transcode_bitrate. No user-supplied path segments."
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "980458fbea02714d42ffd09e0ea5a5e811d201a8453747da0e0208bf57e82852",
+      "check_name": "SendFile",
+      "message": "Model attribute used in file name",
+      "file": "app/controllers/transcoded_stream_controller.rb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Stream.new(Song.find(params[:song_id])).transcode_cache_file_path)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TranscodedStreamController",
+        "method": "find_cache"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [22],
+      "note": "transcode_cache_file_path is constructed entirely server-side from a fixed cache root, song.id, Base64-encoded md5_hash, and Setting.transcode_bitrate. No user-supplied path segments."
+    }
+  ],
+  "updated": "2026-05-14 19:30:00 +0900",
+  "brakeman_version": "8.0.4"
+}
