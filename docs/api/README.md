@@ -4,7 +4,7 @@
 
 - [Authentication](sections/authentication.md) — sessions, API tokens, logout
 - [System](sections/system.md) — server version and minimum supported app version
-- [Users](sections/users.md) — listing, creating, updating, and deleting users
+- [Users](sections/users.md) — listing, creating, updating, and deleting users; updating own profile
 - [Songs](sections/songs.md) — browsing, filtering, and sorting songs
 - [Albums](sections/albums.md) — browsing albums and updating cover images
 - [Artists](sections/artists.md) — browsing artists and updating cover images
@@ -42,6 +42,7 @@ Errors are returned with a standard HTTP status code and a JSON body that names 
 | `403 Forbidden` | The authenticated user is not allowed to perform the action |
 | `404 Not Found` | The requested resource does not exist or is not visible to the current user |
 | `422 Unprocessable Entity` | The submitted data failed validation |
+| `429 Too Many Requests` | A rate limit has been exceeded. The response has no body. |
 | `500 Internal Server Error` | An unexpected error occurred on the server |
 
 ## Pagination

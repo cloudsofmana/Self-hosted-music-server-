@@ -5,6 +5,8 @@ class SessionsController < ApplicationController
 
   skip_before_action :require_login
 
+  rate_limit to: 10, within: 3.minutes, only: :create
+
   def new
     redirect_to root_path if logged_in?
   end

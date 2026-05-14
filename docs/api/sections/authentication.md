@@ -4,7 +4,7 @@ Most Black Candy API endpoints require an API token sent in the `Authorization` 
 
 ## `POST /sessions`
 
-Authenticates a user. Returns an API token in the response body and also sets a `session_id` cookie on the response.
+Authenticates a user. Returns an API token in the response body and also sets a `session_id` cookie on the response. Rate-limited to 10 requests every 3 minutes per IP address.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|

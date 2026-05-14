@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :require_admin, only: [ :index, :create, :new, :destroy ]
+  before_action :require_admin
   before_action :find_user, only: [ :edit, :update, :destroy ]
-  before_action :auth_user, only: [ :edit, :update ]
 
   def index
     @users = User.where.not(id: Current.user.id)
@@ -50,11 +49,6 @@ class UsersController < ApplicationController
 
   def find_user
     @user = User.find(params[:id])
-  end
-
-  def auth_user
-    raise BlackCandy::Forbidden if BlackCandy.config.demo_mode?
-    raise BlackCandy::Forbidden unless @user == Current.user || is_admin?
   end
 
   def user_params

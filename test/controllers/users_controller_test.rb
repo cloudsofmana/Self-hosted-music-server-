@@ -22,18 +22,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should user can edit themself" do
-    user = users(:visitor1)
-
-    login user
-    get edit_user_url(user)
-    assert_response :success
-
-    login users(:visitor2)
-    get edit_user_url(user)
-    assert_response :forbidden
-  end
-
   test "should create user" do
     users_count = User.count
 
@@ -58,18 +46,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert flash[:alert].present?
   end
 
-  test "should user can update themself" do
-    user = users(:visitor1)
-
-    login user
-    patch user_url(user), params: { user: { email: "visitor_updated@blackcandy.com" } }, xhr: true
-    assert_equal "visitor_updated@blackcandy.com", user.reload.email
-
-    login users(:visitor2)
-    patch user_url(user), params: { user: { email: "visitor_updated@blackcandy.com" } }, xhr: true
-    assert_response :forbidden
-  end
-
   test "should destroy user" do
     users_count = User.count
 
@@ -91,7 +67,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get new_user_url
     assert_response :forbidden
 
+    get edit_user_url(users(:visitor2))
+    assert_response :forbidden
+
     post users_url, params: { user: { email: "test@test.com", password: "foobar" } }
+    assert_response :forbidden
+
+    patch user_url(users(:visitor2)), params: { user: { email: "visitor_updated@blackcandy.com" } }, xhr: true
     assert_response :forbidden
 
     delete user_url(users(:visitor2)), xhr: true
@@ -172,6 +154,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :forbidden
     assert_equal "Forbidden", @response.parsed_body["type"]
+  end
+
+  test "should not let non-admin user update via api" do
+    cookies[:session_id] = nil
+
+    patch user_url(users(:visitor1)),
+      params: { user: { email: "visitor_updated@blackcandy.com" } },
+      as: :json,
+      headers: api_token_header(users(:visitor1))
+
+    assert_response :forbidden
   end
 
   test "should not let user access when is on demo mode" do
