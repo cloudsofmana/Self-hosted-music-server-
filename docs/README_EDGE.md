@@ -67,7 +67,7 @@ For Android app, you can also download APK from [GitHub Release](https://github.
 
 ## API
 
-Black Candy exposes a JSON API for building third-party clients. See the [API documentation](https://github.com/blackcandy-org/blackcandy/blob/master/docs/api/README.md) for available endpoints, authentication, and request/response formats.
+Black Candy exposes a JSON API. See the [API documentation](https://github.com/blackcandy-org/blackcandy/blob/master/docs/api/README.md) for available endpoints, authentication, and request/response formats.
 
 ## Configuration
 
